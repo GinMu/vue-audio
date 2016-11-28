@@ -1,18 +1,19 @@
 <template lang="html">
-  <div class="player" @click="startPlay">
+  <div class="player" @click.stop.prevent="startPlay">
     <svg class="progress" width="40px" height="40px">
       <path></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
       <audio preload="auto" :src="source" :duration="time">
       </audio>
-      <p class="time" v-text="currentTime ? currentTime : time"></p>
+      <p class="time">{{time}}</p>
     </a>
   </div>
 </template>
 
 <script>
 import * as constant from './constant'
+let currentTarget
 export default {
   data () {
     return {
@@ -28,23 +29,27 @@ export default {
     time: {
       type: String,
       default: ''
+    },
+    loop: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {},
   methods: {
     startPlay (e) {
-      let target = e.target
+      let target = e.currentTarget
+      this._singlePlay(target)
       let audio = target.querySelector('audio')
-      if (!audio) {
-        audio = target.parentNode.querySelector('audio')
-      }
       audio.addEventListener('error', this._error)
       audio.addEventListener('play', this._play)
+      audio.loop = this.loop
       if (audio.paused || audio.ended) {
-        this.currentState = constant.PLAY_CLASS
+        // this.currentState = constant.PLAY_CLASS
+        target.querySelector('a').className = constant.PLAY_CLASS
         audio.play()
       } else {
-        this.currentState = constant.PAUSE_CLASS
+        target.querySelector('a').className = constant.PAUSE_CLASS
         audio.pause()
       }
     },
@@ -53,10 +58,10 @@ export default {
       let currentTime = target.currentTime
       let duration = target.duration
       let percent = (100 / duration * currentTime).toFixed(1)
-      if (isNaN(percent)) {
+      if (isNaN(percent) || percent === '0.0') {
         percent = 0
       }
-      this.currentTime = percent + '%'
+      target.nextElementSibling.innerText = percent === 0 ? e.target.getAttribute('duration') : percent + '%'
       let svg = target.parentNode.previousElementSibling
       if (percent > 100) {
         percent = 100
@@ -83,8 +88,9 @@ export default {
       path.setAttribute('stroke-width', 2)
     },
     _end (e) {
-      this.currentTime = ''
-      this.currentState = constant.PAUSE_CLASS
+      let target = e.target
+      target.nextElementSibling.innerText = target.getAttribute('duration')
+      target.parentNode.className = constant.PAUSE_CLASS
     },
     _error (e) {
       console.log(e)
@@ -93,6 +99,17 @@ export default {
       let audio = e.target
       audio.addEventListener('timeupdate', this._timeupdate)
       audio.addEventListener('ended', this._end)
+    },
+    _singlePlay (target) {
+      if (currentTarget && currentTarget !== target) {
+        currentTarget.querySelector('a').className = constant.PAUSE_CLASS
+        let audio = currentTarget.querySelector('audio')
+        audio.pause()
+        if (audio.currentTime > 0) {
+          audio.currentTime = 0
+        }
+      }
+      currentTarget = target
     }
   }
 }
