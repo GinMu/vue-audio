@@ -33,8 +33,11 @@ export default {
   mounted () {},
   methods: {
     startPlay (e) {
-      let target = e.target.parentNode
+      let target = e.target
       let audio = target.querySelector('audio')
+      if (!audio) {
+        audio = target.parentNode.querySelector('audio')
+      }
       audio.addEventListener('error', this._error)
       audio.addEventListener('play', this._play)
       if (audio.paused || audio.ended) {
