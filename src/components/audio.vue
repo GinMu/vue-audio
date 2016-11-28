@@ -4,7 +4,7 @@
       <path></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="none" :src="source" :duration="time">
+      <audio preload="auto" :src="source" :duration="time">
       </audio>
       <p class="time" v-text="currentTime ? currentTime : time"></p>
     </a>
@@ -35,8 +35,8 @@ export default {
     startPlay (e) {
       let target = e.target.parentNode
       let audio = target.querySelector('audio')
-      audio.addEventListener('timeupdate', this._progess)
-      audio.addEventListener('ended', this._end)
+      audio.addEventListener('error', this._error)
+      audio.addEventListener('play', this._play)
       if (audio.paused || audio.ended) {
         this.currentState = constant.PLAY_CLASS
         audio.play()
@@ -45,11 +45,14 @@ export default {
         audio.pause()
       }
     },
-    _progess (e) {
+    _timeupdate (e) {
       let target = e.target
       let currentTime = target.currentTime
       let duration = target.duration
       let percent = (100 / duration * currentTime).toFixed(1)
+      if (isNaN(percent)) {
+        percent = 0
+      }
       this.currentTime = percent + '%'
       let svg = target.parentNode.previousElementSibling
       if (percent > 100) {
@@ -79,6 +82,14 @@ export default {
     _end (e) {
       this.currentTime = ''
       this.currentState = constant.PAUSE_CLASS
+    },
+    _error (e) {
+      console.log(e)
+    },
+    _play (e) {
+      let audio = e.target
+      audio.addEventListener('timeupdate', this._timeupdate)
+      audio.addEventListener('ended', this._end)
     }
   }
 }
