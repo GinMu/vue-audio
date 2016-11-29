@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="player" @click.stop.prevent="startPlay">
-    <svg class="progress" width="40px" height="40px">
-      <path></path>
+    <svg class="progress" :width="svgOptions.width" :height="svgOptions.height">
+      <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
       <audio preload="auto" :src="source" :duration="time">
@@ -33,6 +33,18 @@ export default {
     loop: {
       type: Boolean,
       default: false
+    },
+    svgOptions: {
+      type: Object,
+      default () {
+        return {
+          width: '40px',
+          height: '40px',
+          fill: 'none',
+          stroke: '#007aff',
+          strokeWidth: '2'
+        }
+      }
     }
   },
   mounted () {},
@@ -45,7 +57,6 @@ export default {
       audio.addEventListener('play', this._play)
       audio.loop = this.loop
       if (audio.paused || audio.ended) {
-        // this.currentState = constant.PLAY_CLASS
         target.querySelector('a').className = constant.PLAY_CLASS
         audio.play()
       } else {
@@ -83,9 +94,6 @@ export default {
       let d = 'M' + startX + ',' + startY + ' ' + 'A' + radius + ',' + radius + ' ' + xAxisRotation + ' ' + largeArcFlag + ' ' + sweepFlag + ' ' + endX + ',' + endY
       let path = svg.querySelector('path')
       path.setAttribute('d', d)
-      path.setAttribute('fill', 'none')
-      path.setAttribute('stroke', '#007aff')
-      path.setAttribute('stroke-width', 2)
     },
     _end (e) {
       let target = e.target
