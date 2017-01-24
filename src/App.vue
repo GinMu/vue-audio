@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <div class="parameter">
+      <input type="radio" name="single" :value="single_play" v-model="type" id="single">
+      <label for="single">单曲播放</label>
       <input type="radio" name="loop" :value="single_cicle" v-model="type" id="loop">
       <label for="loop">单曲循环</label>
       <input type="radio" name="order" :value="order_play" v-model="type" id="order">
       <label for="order">顺序播放</label>
       <input type="radio" name="listing" :value="listing_cicle" v-model="type" id="listing">
-      <label for="listing">列表循序</label>
+      <label for="listing">列表循环</label>
     </div>
-    <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :type="type"></vue-audio>
+    <div class="audio-container">
+      <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :type="type"></vue-audio>
+    </div>
   </div>
 </template>
 
@@ -29,7 +33,8 @@ export default {
         source: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
         time: '0:22'
       }],
-      type: constant.ORDER_PLAY,
+      type: constant.SINGLE_PLAY,
+      single_play: constant.SINGLE_PLAY,
       single_cicle: constant.SINGLE_CICLE,
       order_play: constant.ORDER_PLAY,
       listing_cicle: constant.LISTING_CICLE

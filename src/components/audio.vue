@@ -121,6 +121,9 @@ export default {
       console.log(e)
     },
     _typeControl (target) {
+      if (this.type === constant.SINGLE_PLAY) {
+        return
+      }
       let index = parseInt(target.getAttribute('index'))
       let nextIndex
       if (this.type === constant.ORDER_PLAY && index < this.audios.length - 1) {
