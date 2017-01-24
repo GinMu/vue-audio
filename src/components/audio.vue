@@ -4,7 +4,7 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="auto" :src="source" :duration="time" :loop="loop" @ended="_end" @play="_play" @pause="_pause" @error="_error" @timeupdate="_timeupdate">
+      <audio preload="auto" :index="index" :src="source" :duration="time" :loop="loop" @ended="_end" @play="_play" @pause="_pause" @error="_error" @timeupdate="_timeupdate">
       </audio>
       <p class="time" v-text="time"></p>
     </a>
@@ -18,7 +18,8 @@ export default {
   data () {
     return {
       currentTime: '',
-      currentState: constant.PAUSE_CLASS
+      currentState: constant.PAUSE_CLASS,
+      audios: []
     }
   },
   props: {
@@ -34,6 +35,10 @@ export default {
       type: Boolean,
       default: false
     },
+    index: {
+      type: Number,
+      default: 0
+    },
     svgOptions: {
       type: Object,
       default () {
@@ -47,7 +52,11 @@ export default {
       }
     }
   },
-  mounted () {},
+  mounted () {
+    this.$nextTick(function () {
+      this.audios = document.getElementsByTagName('audio')
+    })
+  },
   methods: {
     startPlay (e) {
       let target = e.currentTarget
@@ -98,8 +107,13 @@ export default {
     },
     _end (e) {
       let target = e.target
-      target.nextElementSibling.innerText = target.getAttribute('duration')
       this._pause(e)
+      target.nextElementSibling.innerText = target.getAttribute('duration')
+      let index = parseInt(target.getAttribute('index'))
+      if (index >= this.audios.length - 1) {
+        return
+      }
+      this.audios[index + 1].play()
     },
     _error (e) {
       console.log(e)

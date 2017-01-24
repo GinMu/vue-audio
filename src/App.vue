@@ -6,8 +6,7 @@
       <input type="checkbox" name="order" v-model="order_play" id="order">
       <label for="order">顺序播放</label>
     </div>
-    <vue-audio :source="source" :time="time" :loop="single_cicle"></vue-audio>
-    <vue-audio :source="source1" :time="time1" :loop="single_cicle"></vue-audio>
+    <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :loop="single_cicle"></vue-audio>
   </div>
 </template>
 
@@ -20,10 +19,13 @@ export default {
   },
   data () {
     return {
-      source: 'http://file.kuyinyun.com/group2/M00/D0/F3/rBBGelaCOEiAW5kvAB35TVrIADs055.mp3',
-      source1: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
-      time: '0:48',
-      time1: '0:22',
+      lists: [{
+        source: 'http://file.kuyinyun.com/group2/M00/D0/F3/rBBGelaCOEiAW5kvAB35TVrIADs055.mp3',
+        time: '0:48'
+      }, {
+        source: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
+        time: '0:22'
+      }],
       single_cicle: false,
       order_play: true
     }
