@@ -4,9 +4,9 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="auto" :src="source" :duration="time" :loop="loop">
+      <audio preload="auto" :src="source" :duration="time" :loop="loop" @ended="_end" @play="_play" @pause="_pause" @error="_error" @timeupdate="_timeupdate">
       </audio>
-      <p class="time">{{time}}</p>
+      <p class="time" v-text="time"></p>
     </a>
   </div>
 </template>
@@ -53,13 +53,9 @@ export default {
       let target = e.currentTarget
       this._singlePlay(target)
       let audio = target.querySelector('audio')
-      audio.addEventListener('error', this._error)
-      audio.addEventListener('play', this._play)
       if (audio.paused || audio.ended) {
-        target.querySelector('a').className = constant.PLAY_CLASS
         audio.play()
       } else {
-        target.querySelector('a').className = constant.PAUSE_CLASS
         audio.pause()
       }
     },
@@ -94,22 +90,22 @@ export default {
       let path = svg.querySelector('path')
       path.setAttribute('d', d)
     },
+    _play (e) {
+      e.target.parentNode.className = constant.PLAY_CLASS
+    },
+    _pause (e) {
+      e.target.parentNode.className = constant.PAUSE_CLASS
+    },
     _end (e) {
       let target = e.target
       target.nextElementSibling.innerText = target.getAttribute('duration')
-      target.parentNode.className = constant.PAUSE_CLASS
+      this._pause(e)
     },
     _error (e) {
       console.log(e)
     },
-    _play (e) {
-      let audio = e.target
-      audio.addEventListener('timeupdate', this._timeupdate)
-      audio.addEventListener('ended', this._end)
-    },
     _singlePlay (target) {
       if (currentTarget && currentTarget !== target) {
-        currentTarget.querySelector('a').className = constant.PAUSE_CLASS
         let audio = currentTarget.querySelector('audio')
         audio.pause()
         if (audio.currentTime > 0) {
