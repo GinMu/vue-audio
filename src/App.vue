@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div class="loop">
-      <input type="checkbox" name="loop" v-model="loop" id="loop">
-      <label for="loop">循环播放</label>
+      <input type="checkbox" name="loop" v-model="single_loop" id="loop">
+      <label for="loop">单曲循环</label>
     </div>
-    <vue-audio :source="source" :time="time" :loop="loop"></vue-audio>
-    <vue-audio :source="source1" :time="time1" :loop="loop"></vue-audio>
+    <vue-audio :source="source" :time="time" :loop="single_loop"></vue-audio>
+    <vue-audio :source="source1" :time="time1" :loop="single_loop"></vue-audio>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
       source1: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
       time: '0:48',
       time1: '0:22',
-      loop: false
+      single_loop: false
     }
   }
 }
