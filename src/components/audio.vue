@@ -31,9 +31,9 @@ export default {
       type: String,
       default: ''
     },
-    loop: {
-      type: Boolean,
-      default: false
+    type: {
+      type: Number,
+      default: constant.ORDER_PLAY
     },
     index: {
       type: Number,
@@ -56,6 +56,11 @@ export default {
     this.$nextTick(function () {
       this.audios = document.getElementsByTagName('audio')
     })
+  },
+  computed: {
+    loop () {
+      return this.type === constant.SINGLE_CICLE
+    }
   },
   methods: {
     startPlay (e) {

@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <div class="parameter">
-      <input type="checkbox" name="loop" v-model="single_cicle" id="loop">
+      <input type="radio" name="loop" :value="single_cicle" v-model="type" id="loop">
       <label for="loop">单曲循环</label>
-      <input type="checkbox" name="order" v-model="order_play" id="order">
+      <input type="radio" name="order" :value="order_play" v-model="type" id="order">
       <label for="order">顺序播放</label>
+      <input type="radio" name="listing" :value="listing_cicle" v-model="type" id="listing">
+      <label for="listing">列表循序</label>
     </div>
-    <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :loop="single_cicle"></vue-audio>
+    <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :type="type"></vue-audio>
   </div>
 </template>
 
 <script>
 import vueAudio from './components/audio'
+import * as constant from './components/constant'
 export default {
   name: 'app',
   components: {
@@ -26,8 +29,10 @@ export default {
         source: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
         time: '0:22'
       }],
-      single_cicle: false,
-      order_play: true
+      type: constant.ORDER_PLAY,
+      single_cicle: constant.SINGLE_CICLE,
+      order_play: constant.ORDER_PLAY,
+      listing_cicle: constant.LISTING_CICLE
     }
   }
 }
