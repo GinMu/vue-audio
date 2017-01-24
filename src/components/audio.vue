@@ -65,7 +65,7 @@ export default {
   methods: {
     startPlay (e) {
       let target = e.currentTarget
-      this._singlePlay(target)
+      this._stopOther(target)
       let audio = target.querySelector('audio')
       if (audio.paused || audio.ended) {
         audio.play()
@@ -111,19 +111,35 @@ export default {
       e.target.parentNode.className = constant.PAUSE_CLASS
     },
     _end (e) {
+      // 单曲循环不会触发ended事件
       let target = e.target
       this._pause(e)
       target.nextElementSibling.innerText = target.getAttribute('duration')
-      let index = parseInt(target.getAttribute('index'))
-      if (index >= this.audios.length - 1) {
-        return
-      }
-      this.audios[index + 1].play()
+      this._typeControl(target)
     },
     _error (e) {
       console.log(e)
     },
-    _singlePlay (target) {
+    _typeControl (target) {
+      let index = parseInt(target.getAttribute('index'))
+      let nextIndex
+      if (this.type === constant.ORDER_PLAY && index < this.audios.length - 1) {
+        nextIndex = index + 1
+        this.audios[nextIndex].play()
+        return
+      }
+
+      if (this.type === constant.LISTING_CICLE) {
+        if (index === this.audios.length - 1) {
+          nextIndex = 0
+        } else {
+          nextIndex = index + 1
+        }
+        this.audios[nextIndex].play()
+        return
+      }
+    },
+    _stopOther (target) {
       if (currentTarget && currentTarget !== target) {
         let audio = currentTarget.querySelector('audio')
         audio.pause()
