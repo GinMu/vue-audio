@@ -4,7 +4,7 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="auto" :src="source" :duration="time">
+      <audio preload="auto" :src="source" :duration="time" :loop="loop">
       </audio>
       <p class="time">{{time}}</p>
     </a>
@@ -55,7 +55,6 @@ export default {
       let audio = target.querySelector('audio')
       audio.addEventListener('error', this._error)
       audio.addEventListener('play', this._play)
-      audio.loop = this.loop
       if (audio.paused || audio.ended) {
         target.querySelector('a').className = constant.PLAY_CLASS
         audio.play()

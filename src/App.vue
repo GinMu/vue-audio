@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="loop">
+      <input type="checkbox" name="loop" v-model="loop" id="loop">
+      <label for="loop">循环播放</label>
+    </div>
     <vue-audio :source="source" :time="time" :loop="loop"></vue-audio>
     <vue-audio :source="source1" :time="time1" :loop="loop"></vue-audio>
   </div>
@@ -14,9 +18,9 @@ export default {
   },
   data () {
     return {
-      source: 'http://dl.stream.qqmusic.qq.com/C200003BIyA14TxbEW.m4a?vkey=2C5E52CABDFE66720A0C3477DA1D1ACB0E8B75B45AC932D5C3AE56C3EC1D7E044B60F877F27962278FEC84C305937B9B8301A73EA7379124&guid=7746565523&fromtag=30',
+      source: 'http://file.kuyinyun.com/group2/M00/D0/F3/rBBGelaCOEiAW5kvAB35TVrIADs055.mp3',
       source1: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
-      time: '5:30',
+      time: '0:48',
       time1: '0:22',
       loop: false
     }
@@ -32,5 +36,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.loop {
+  margin-bottom: 10px;
 }
 </style>
