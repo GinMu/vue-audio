@@ -65,7 +65,6 @@ export default {
   methods: {
     startPlay (e) {
       let target = e.currentTarget
-      this._stopOther(target)
       let audio = target.querySelector('audio')
       if (audio.paused || audio.ended) {
         audio.play()
@@ -106,6 +105,7 @@ export default {
     },
     _play (e) {
       e.target.parentNode.className = constant.PLAY_CLASS
+      this._stopOther(e.target.parentNode.parentNode)
     },
     _pause (e) {
       e.target.parentNode.className = constant.PAUSE_CLASS
