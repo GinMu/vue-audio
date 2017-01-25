@@ -4,9 +4,9 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="auto" :index="index" :src="source" :duration="time" :loop="loop" @ended="_end" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
+      <audio preload="auto" :src="source" :duration="time" :loop="loop" @ended="_end" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
       </audio>
-      <p class="time" v-text="time"></p>
+      <p class="time" v-text="currentProgress"></p>
     </a>
   </div>
 </template>
@@ -19,7 +19,8 @@ export default {
     return {
       currentTime: '',
       currentState: constant.PAUSE_CLASS,
-      audios: []
+      audios: [],
+      progress: ''
     }
   },
   props: {
@@ -33,7 +34,7 @@ export default {
     },
     type: {
       type: Number,
-      default: constant.ORDER_PLAY
+      default: constant.SINGLE_PLAY
     },
     index: {
       type: Number,
@@ -60,6 +61,9 @@ export default {
   computed: {
     loop () {
       return this.type === constant.SINGLE_CICLE
+    },
+    currentProgress () {
+      return this.progress || this.time
     }
   },
   methods: {
@@ -80,7 +84,7 @@ export default {
       if (isNaN(percent) || percent === '0.0') {
         percent = 0
       }
-      target.nextElementSibling.innerText = percent === 0 ? e.target.getAttribute('duration') : percent + '%'
+      this.progress = percent === 0 ? '' : percent + '%'
       let svg = target.parentNode.previousElementSibling
       if (percent > 100) {
         percent = 100
@@ -107,34 +111,36 @@ export default {
       this.currentState = constant.PLAY_CLASS
       this._stopOther(e.target.parentNode.parentNode)
     },
-    _pause (e) {
+    _pause () {
       this.currentState = constant.PAUSE_CLASS
     },
-    _waiting (e) {
+    _waiting () {
       this.currentState = constant.LOAD_CLASS
     },
-    _end (e) {
+    _end () {
       // 单曲循环不会触发ended事件
-      let target = e.target
-      this._pause(e)
-      target.nextElementSibling.innerText = target.getAttribute('duration')
-      this._typeControl(target)
+      this.progress = ''
+      this._pause()
+      this._typeControl()
     },
     _error (e) {
       console.log(e)
     },
-    _typeControl (target) {
+    _typeControl () {
+      // 单曲播放
       if (this.type === constant.SINGLE_PLAY) {
         return
       }
-      let index = parseInt(target.getAttribute('index'))
+      let index = this.index
       let nextIndex
+      // 顺序播放
       if (this.type === constant.ORDER_PLAY && index < this.audios.length - 1) {
         nextIndex = index + 1
         this.audios[nextIndex].play()
         return
       }
 
+      // 列表循环
       if (this.type === constant.LISTING_CICLE) {
         if (index === this.audios.length - 1) {
           nextIndex = 0
@@ -145,6 +151,7 @@ export default {
         return
       }
 
+      // 随机播放
       if (this.type === constant.RANDOM_PLAY) {
         let audios = []
         for (let i = 0; i < this.audios.length; i++) {
@@ -170,4 +177,4 @@ export default {
 }
 </script>
 
-<style lang="sass" src='./audio.scss'>Error: Source sample is missing.</style>
+<style lang="sass" src='./audio.scss' scoped>Error: Source sample is missing.</style>
