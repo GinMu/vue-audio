@@ -4,7 +4,7 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth" :d="d"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio class="vue-audio" preload="auto" :src="source" :duration="time" :loop="loop" @ended="_end" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
+      <audio class="vue-audio" preload="auto" :src="source" :duration="time" :loop="loop" @ended="_ended" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
       </audio>
       <p class="time" v-text="currentProgress"></p>
     </a>
@@ -108,7 +108,7 @@ export default {
     },
     _playing (e) {
       this.currentState = constant.PLAY_CLASS
-      this._stopOther(e.target.parentNode.parentNode)
+      this._stopOther(e.path[2])
     },
     _pause () {
       this.currentState = constant.PAUSE_CLASS
@@ -116,7 +116,7 @@ export default {
     _waiting () {
       this.currentState = constant.LOAD_CLASS
     },
-    _end () {
+    _ended () {
       // 单曲循环不会触发ended事件
       this.progress = ''
       this._pause()
