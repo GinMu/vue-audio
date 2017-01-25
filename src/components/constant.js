@@ -13,3 +13,5 @@ export const ORDER_PLAY = 1
 export const SINGLE_CICLE = 2
 
 export const LISTING_CICLE = 3
+
+export const RANDOM_PLAY = 4

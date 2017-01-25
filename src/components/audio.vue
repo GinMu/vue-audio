@@ -144,6 +144,17 @@ export default {
         this.audios[nextIndex].play()
         return
       }
+
+      if (this.type === constant.RANDOM_PLAY) {
+        let audios = []
+        for (let i = 0; i < this.audios.length; i++) {
+          if (index !== i) {
+            audios.push(this.audios[i])
+          }
+        }
+        nextIndex = Math.floor(audios.length * Math.random())
+        audios[nextIndex].play()
+      }
     },
     _stopOther (target) {
       if (currentTarget && currentTarget !== target) {

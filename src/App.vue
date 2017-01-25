@@ -2,13 +2,15 @@
   <div id="app">
     <div class="parameter">
       <input type="radio" name="single" :value="single_play" v-model="type" id="single">
-      <label for="single">单曲播放</label>
+      <label for="single">single-play</label>
       <input type="radio" name="loop" :value="single_cicle" v-model="type" id="loop">
-      <label for="loop">单曲循环</label>
+      <label for="loop">single-cicle</label>
       <input type="radio" name="order" :value="order_play" v-model="type" id="order">
-      <label for="order">顺序播放</label>
+      <label for="order">order-play</label>
       <input type="radio" name="listing" :value="listing_cicle" v-model="type" id="listing">
-      <label for="listing">列表循环</label>
+      <label for="listing">listing-cicle</label>
+      <input type="radio" name="random" :value="random_play" v-model="type" id="random">
+      <label for="random">random-play</label>
     </div>
     <div class="audio-container">
       <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :type="type"></vue-audio>
@@ -27,8 +29,8 @@ export default {
   data () {
     return {
       lists: [{
-        source: 'http://file.kuyinyun.com/group2/M00/D0/F3/rBBGelaCOEiAW5kvAB35TVrIADs055.mp3',
-        time: '0:48'
+        source: 'http://file.kuyinyun.com/group2/M00/EF/C0/rBBGelUPiWiACpYhAAQfE72-jHE679.mp3',
+        time: '0:16'
       }, {
         source: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
         time: '0:22'
@@ -43,7 +45,8 @@ export default {
       single_play: constant.SINGLE_PLAY,
       single_cicle: constant.SINGLE_CICLE,
       order_play: constant.ORDER_PLAY,
-      listing_cicle: constant.LISTING_CICLE
+      listing_cicle: constant.LISTING_CICLE,
+      random_play: constant.RANDOM_PLAY
     }
   }
 }
