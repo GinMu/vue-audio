@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="player" @click.stop.prevent="startPlay">
     <svg class="progress" :width="svgOptions.width" :height="svgOptions.height">
-      <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
+      <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth" :d="d"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="auto" :src="source" :duration="time" :loop="loop" @ended="_end" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
+      <audio class="vue-audio" preload="auto" :src="source" :duration="time" :loop="loop" @ended="_end" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
       </audio>
       <p class="time" v-text="currentProgress"></p>
     </a>
@@ -20,7 +20,8 @@ export default {
       currentTime: '',
       currentState: constant.PAUSE_CLASS,
       audios: [],
-      progress: ''
+      progress: '',
+      d: ''
     }
   },
   props: {
@@ -44,18 +45,18 @@ export default {
       type: Object,
       default () {
         return {
-          width: '40px',
-          height: '40px',
+          width: 40,
+          height: 40,
           fill: 'none',
           stroke: '#007aff',
-          strokeWidth: '2'
+          strokeWidth: 2
         }
       }
     }
   },
   mounted () {
     this.$nextTick(function () {
-      this.audios = document.getElementsByTagName('audio')
+      this.audios = document.getElementsByClassName('vue-audio')
     })
   },
   computed: {
@@ -85,13 +86,12 @@ export default {
         percent = 0
       }
       this.progress = percent === 0 ? '' : percent + '%'
-      let svg = target.parentNode.previousElementSibling
       if (percent > 100) {
         percent = 100
       }
-      let radius = 19
-      let centerX = svg.width.animVal.value / 2
-      let centerY = svg.height.animVal.value / 2
+      let centerX = this.svgOptions.width / 2
+      let centerY = this.svgOptions.height / 2
+      let radius = centerX - this.svgOptions.strokeWidth / 2
       let startX = centerX
       let startY = centerY - radius
       let xAxisRotation = 0
@@ -104,8 +104,7 @@ export default {
       let endX = centerX + radius * Math.sin(circ * percent / 100)
       let endY = centerY - radius * Math.cos(circ * percent / 100)
       let d = 'M' + startX + ',' + startY + ' ' + 'A' + radius + ',' + radius + ' ' + xAxisRotation + ' ' + largeArcFlag + ' ' + sweepFlag + ' ' + endX + ',' + endY
-      let path = svg.querySelector('path')
-      path.setAttribute('d', d)
+      this.d = d
     },
     _playing (e) {
       this.currentState = constant.PLAY_CLASS
