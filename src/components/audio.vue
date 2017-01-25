@@ -4,7 +4,7 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio preload="auto" :index="index" :src="source" :duration="time" :loop="loop" @ended="_end" @play="_play" @pause="_pause" @error="_error" @timeupdate="_timeupdate">
+      <audio preload="auto" :index="index" :src="source" :duration="time" :loop="loop" @ended="_end" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
       </audio>
       <p class="time" v-text="time"></p>
     </a>
@@ -103,12 +103,15 @@ export default {
       let path = svg.querySelector('path')
       path.setAttribute('d', d)
     },
-    _play (e) {
+    _playing (e) {
       e.target.parentNode.className = constant.PLAY_CLASS
       this._stopOther(e.target.parentNode.parentNode)
     },
     _pause (e) {
       e.target.parentNode.className = constant.PAUSE_CLASS
+    },
+    _waiting (e) {
+      e.target.parentNode.className = constant.LOAD_CLASS
     },
     _end (e) {
       // 单曲循环不会触发ended事件

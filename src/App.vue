@@ -32,6 +32,12 @@ export default {
       }, {
         source: 'http://file.kuyinyun.com/group2/M00/61/1A/rBBGelcTAZCAcQ4cAAcmErMReH4964.mp3',
         time: '0:22'
+      }, {
+        source: 'http://file.kuyinyun.com/group1/M00/94/83/rBBGdFYkXFuAYuTRAA2ax4_NmEk387.mp3',
+        time: '0:55'
+      }, {
+        source: 'http://file.kuyinyun.com/group2/M00/84/DF/rBBGelZL7EuAKFL_ABiwByGtPBo792.mp3',
+        time: '0:33'
       }],
       type: constant.SINGLE_PLAY,
       single_play: constant.SINGLE_PLAY,
