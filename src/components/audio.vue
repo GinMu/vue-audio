@@ -104,14 +104,14 @@ export default {
       path.setAttribute('d', d)
     },
     _playing (e) {
-      e.target.parentNode.className = constant.PLAY_CLASS
+      this.currentState = constant.PLAY_CLASS
       this._stopOther(e.target.parentNode.parentNode)
     },
     _pause (e) {
-      e.target.parentNode.className = constant.PAUSE_CLASS
+      this.currentState = constant.PAUSE_CLASS
     },
     _waiting (e) {
-      e.target.parentNode.className = constant.LOAD_CLASS
+      this.currentState = constant.LOAD_CLASS
     },
     _end (e) {
       // 单曲循环不会触发ended事件
