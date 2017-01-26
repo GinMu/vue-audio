@@ -152,14 +152,11 @@ export default {
 
       // 随机播放
       if (this.type === constant.RANDOM_PLAY) {
-        let audios = []
-        for (let i = 0; i < this.audios.length; i++) {
-          if (index !== i) {
-            audios.push(this.audios[i])
-          }
+        nextIndex = Math.floor((this.audios.length - 1) * Math.random())
+        if (nextIndex >= index) {
+          nextIndex += 1
         }
-        nextIndex = Math.floor(audios.length * Math.random())
-        audios[nextIndex].play()
+        this.audios[nextIndex].play()
       }
     },
     _stopOther (target) {
