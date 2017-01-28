@@ -81,5 +81,15 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "audio",
+    "player",
+    "vue.js"
+  ],
+  "license": "MIT"
 }
