@@ -6,7 +6,7 @@
 
 # Options
 
-Here list Props on swipe component
+Here list Props on vue-audio component
 
 | Option | Description |
 | ----- | ----- |
