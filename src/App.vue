@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <div class="parameter">
-      <input type="radio" name="single" :value="single_play" v-model="type" id="single">
-      <label for="single">single-play</label>
-      <input type="radio" name="loop" :value="single_cicle" v-model="type" id="loop">
-      <label for="loop">single-cicle</label>
-      <input type="radio" name="order" :value="order_play" v-model="type" id="order">
-      <label for="order">order-play</label>
-      <input type="radio" name="listing" :value="listing_cicle" v-model="type" id="listing">
-      <label for="listing">listing-cicle</label>
-      <input type="radio" name="random" :value="random_play" v-model="type" id="random">
-      <label for="random">random-play</label>
+      <input type="radio" name="single" :value="single_mode" v-model="mode" id="single">
+      <label for="single">single</label>
+      <input type="radio" name="loop" :value="loop_mode" v-model="mode" id="loop">
+      <label for="loop">loop</label>
+      <input type="radio" name="order" :value="order_mode" v-model="mode" id="order">
+      <label for="order">order</label>
+      <input type="radio" name="listing" :value="circulation_mode" v-model="mode" id="circulation">
+      <label for="circulation">circulation</label>
+      <input type="radio" name="random" :value="random_mode" v-model="mode" id="random">
+      <label for="random">random</label>
     </div>
     <div class="audio-container">
-      <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :type="type"></vue-audio>
+      <vue-audio v-for="(list, index) of lists" :source="list.source" :time="list.time" :index="index" :mode="mode"></vue-audio>
     </div>
   </div>
 </template>
@@ -41,12 +41,12 @@ export default {
         source: 'http://file.kuyinyun.com/group2/M00/84/DF/rBBGelZL7EuAKFL_ABiwByGtPBo792.mp3',
         time: '0:33'
       }],
-      type: constant.SINGLE_PLAY,
-      single_play: constant.SINGLE_PLAY,
-      single_cicle: constant.SINGLE_CICLE,
-      order_play: constant.ORDER_PLAY,
-      listing_cicle: constant.LISTING_CICLE,
-      random_play: constant.RANDOM_PLAY
+      mode: constant.SINGLE,
+      single_mode: constant.SINGLE,
+      loop_mode: constant.LOOP,
+      order_mode: constant.ORDER,
+      circulation_mode: constant.CIRCULATION,
+      random_mode: constant.RANDOM
     }
   }
 }

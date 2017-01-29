@@ -33,9 +33,9 @@ export default {
       type: String,
       default: ''
     },
-    type: {
+    mode: {
       type: Number,
-      default: constant.SINGLE_PLAY
+      default: constant.SINGLE
     },
     index: {
       type: Number,
@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     loop () {
-      return this.type === constant.SINGLE_CICLE
+      return this.mode === constant.LOOP
     },
     currentProgress () {
       return this.progress || this.time
@@ -117,7 +117,7 @@ export default {
       this.currentState = constant.LOAD_CLASS
     },
     _ended () {
-      // 单曲循环不会触发ended事件
+      // it doesn't trigger end event when the mode is loop
       this.progress = ''
       this._pause()
       this._typeControl()
@@ -126,21 +126,21 @@ export default {
       console.log(e)
     },
     _typeControl () {
-      // 单曲播放
-      if (this.type === constant.SINGLE_PLAY) {
+      // single mode
+      if (this.mode === constant.SINGLE) {
         return
       }
       let index = this.index
       let nextIndex
-      // 顺序播放
-      if (this.type === constant.ORDER_PLAY && index < this.audios.length - 1) {
+      // order mode
+      if (this.mode === constant.ORDER && index < this.audios.length - 1) {
         nextIndex = index + 1
         this.audios[nextIndex].play()
         return
       }
 
-      // 列表循环
-      if (this.type === constant.LISTING_CICLE) {
+      // circulation mode
+      if (this.mode === constant.CIRCULATION) {
         if (index === this.audios.length - 1) {
           nextIndex = 0
         } else {
@@ -150,8 +150,8 @@ export default {
         return
       }
 
-      // 随机播放
-      if (this.type === constant.RANDOM_PLAY) {
+      // random mode
+      if (this.mode === constant.RANDOM) {
         nextIndex = Math.floor((this.audios.length - 1) * Math.random())
         if (nextIndex >= index) {
           nextIndex += 1
@@ -160,12 +160,11 @@ export default {
       }
     },
     _stopOther (target) {
+      // stop other audio which is playing
       if (currentTarget && currentTarget !== target) {
         let audio = currentTarget.querySelector('audio')
         audio.pause()
-        if (audio.currentTime > 0) {
-          audio.currentTime = 0
-        }
+        audio.currentTime = 0
       }
       currentTarget = target
     }
