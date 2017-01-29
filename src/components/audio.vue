@@ -6,7 +6,7 @@
     <a :class="currentState" href="javascript:void(0)">
       <audio class="vue-audio" :muted="muted" :autoplay="autoplay" :preload="preload" :src="source" :loop="loop" @ended="_ended" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
       </audio>
-      <p class="time" v-text="currentProgress"></p>
+      <p class="time" v-text="currentProgress" v-if="time"></p>
     </a>
   </div>
 </template>
