@@ -4,7 +4,7 @@
       <path :fill="svgOptions.fill" :stroke="svgOptions.stroke" :stroke-width="svgOptions.strokeWidth" :d="d"></path>
     </svg>
     <a :class="currentState" href="javascript:void(0)">
-      <audio class="vue-audio" preload="auto" :src="source" :duration="time" :loop="loop" @ended="_ended" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
+      <audio class="vue-audio" :muted="muted" :autoplay="autoplay" :preload="preload" :src="source" :loop="loop" @ended="_ended" @playing="_playing" @pause="_pause" @error="_error" @timeupdate="_timeupdate" @waiting="_waiting">
       </audio>
       <p class="time" v-text="currentProgress"></p>
     </a>
@@ -27,7 +27,10 @@ export default {
   props: {
     source: {
       type: String,
-      default: ''
+      required: true,
+      validator: function (value) {
+        return value
+      }
     },
     time: {
       type: String,
@@ -39,7 +42,23 @@ export default {
     },
     index: {
       type: Number,
-      default: 0
+      default: 0,
+      required: true
+    },
+    preload: {
+      type: String,
+      default: 'none',
+      validator: function (value) {
+        return value === 'none' || value === 'auto' || value === 'metadata'
+      }
+    },
+    autoplay: {
+      type: Boolean,
+      default: false
+    },
+    muted: {
+      type: Boolean,
+      default: false
     },
     svgOptions: {
       type: Object,
