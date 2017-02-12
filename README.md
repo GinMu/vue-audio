@@ -15,7 +15,42 @@
 | autoplay | | boolean | false | false | |
 | muted | | boolean | false | false | |
 
- 
+##example code
+
+
+```
+<vue-audio v-for="(list, index) of lists"
+                  :source="list.source"
+                  :index="index"
+                  :mode="mode"
+                  @timeupdate="timeupdate"
+                  @playing="playing"
+                  @pause="pause"
+                  @ended="ended"
+                  @waiting="waiting"
+                  @error="error">
+        <div class="player"></div>
+</vue-audio>
+
+timeupdate (e) {
+
+},
+playing (e) {
+
+},
+pause (e) {
+
+},
+ended (e) {
+
+},
+waiting (e) {
+
+},
+error (e) {
+
+}
+```
 
 ##Build Setup
 
