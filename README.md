@@ -4,24 +4,20 @@
 
 * [demo](https://ginmu.github.io/vue-audio/)
 
-# Options
+##audio component props
 
-Here list Props on vue-audio component
+| props | description | type | default | required | values
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| source | src of audio | string | "" | true | |
+| index | the current audio index in the playlist | number | 0 | true | |
+| mode | player mode | number | 0 | false | 0:single 1:order 2:loop 3:circulation 4:random |
+| preload | | string | 'none' | false | "none"、 "auto"、 "metadata" |
+| autoplay | | boolean | false | false | |
+| muted | | boolean | false | false | |
 
-| Option | Description |
-| ----- | ----- |
-| source | String(required:true) - src of audio. |
-| time | String(default: '') - time of audio. |
-| mode | Number (default:0) - player mode. |
-| index | Number (default:0, required: true) - the current audio index in the playlist.  |
-| preload | String (default:'none') |
-| autoplay | Boolean (default:false) |
-| muted | Boolean (default:false) |
-| svgOptions | Object (default:{ width: 40, height: 40, fill: 'none', stroke: '#007aff', strokeWidth: 2 }) |
+ 
 
-
-
-## Build Setup
+##Build Setup
 
 ``` bash
 # install dependencies
@@ -31,3 +27,5 @@ npm install
 npm run dev
 
 ```
+
+
