@@ -10,7 +10,7 @@
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | source | src of audio | string | "" | true | |
 | index | the current audio index in the playlist | number | 0 | true | |
-| mode | player mode | number | 0 | false | 0:single 1:order 2:loop 3:circulation 4:random |
+| mode | player mode | number | 0 | false | 0:single、1:order、2:loop、3:circulation、4:random |
 | preload | | string | 'none' | false | "none"、 "auto"、 "metadata" |
 | autoplay | | boolean | false | false | |
 | muted | | boolean | false | false | |
