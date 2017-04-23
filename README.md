@@ -4,10 +4,10 @@
 
 * [demo](https://ginmu.github.io/vue-audio/)
 
-##audio component props
+## audio component props
 
-| props | description | type | default | required | values
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| props | description  | type | default | required | values |
+| :-: |:-:| :-:| :-: |:-:| :-:|
 | source | src of audio | string | "" | true | |
 | index | the current audio index in the playlist | number | 0 | true | |
 | mode | player mode | number | 0 | false | 0:single、1:order、2:loop、3:circulation、4:random |
@@ -15,7 +15,7 @@
 | autoplay | | boolean | false | false | |
 | muted | | boolean | false | false | |
 
-##example code
+## example code
 
 
 ```
@@ -52,7 +52,7 @@ error (e) {
 }
 ```
 
-##Build Setup
+## Build Setup
 
 ``` bash
 # install dependencies
