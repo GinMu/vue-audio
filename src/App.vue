@@ -105,16 +105,16 @@ export default {
       path.setAttribute('d', d)
     },
     playing (e) {
-      e.path[1].querySelector('a').className = constant.PLAY_CLASS
+      e.target.parentElement.querySelector('a').className = constant.PLAY_CLASS
     },
     pause (e) {
-      e.path[1].querySelector('a').className = constant.PAUSE_CLASS
+      e.target.parentElement.querySelector('a').className = constant.PAUSE_CLASS
     },
     ended (e) {
-      e.path[1].querySelector('a').className = constant.PAUSE_CLASS
+      e.target.parentElement.querySelector('a').className = constant.PAUSE_CLASS
     },
     waiting (e) {
-      e.path[1].querySelector('a').className = constant.LOAD_CLASS
+      e.target.parentElement.querySelector('a').className = constant.LOAD_CLASS
     },
     error (e) {
       console.log(e)
