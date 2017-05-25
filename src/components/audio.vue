@@ -84,7 +84,7 @@ export default {
     },
     _playing (e) {
       this.$emit('playing', e)
-      this._stopOther(e.path[1])
+      this._stopOther(e.target.parentElement)
     },
     _pause (e) {
       this.$emit('pause', e)
