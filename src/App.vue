@@ -17,6 +17,7 @@
                   :source="list.source"
                   :index="index"
                   :mode="mode"
+                  :key="index"
                   @timeupdate="timeupdate"
                   @playing="playing"
                   @pause="pause"
@@ -105,16 +106,20 @@ export default {
       path.setAttribute('d', d)
     },
     playing (e) {
-      e.target.parentElement.querySelector('a').className = constant.PLAY_CLASS
+      let ele = e.path ? e.path[1] : e.target.parentElement
+      ele.querySelector('a').className = constant.PLAY_CLASS
     },
     pause (e) {
-      e.target.parentElement.querySelector('a').className = constant.PAUSE_CLASS
+      let ele = e.path ? e.path[1] : e.target.parentElement
+      ele.querySelector('a').className = constant.PAUSE_CLASS
     },
     ended (e) {
-      e.target.parentElement.querySelector('a').className = constant.PAUSE_CLASS
+      let ele = e.path ? e.path[1] : e.target.parentElement
+      ele.querySelector('a').className = constant.PAUSE_CLASS
     },
     waiting (e) {
-      e.target.parentElement.querySelector('a').className = constant.LOAD_CLASS
+      let ele = e.path ? e.path[1] : e.target.parentElement
+      ele.querySelector('a').className = constant.LOAD_CLASS
     },
     error (e) {
       console.log(e)
