@@ -1,5 +1,7 @@
 # vue-audio
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/GinMu/vue-audio.svg)](https://greenkeeper.io/)
+
 > A simple audio player based on Vue 2.x which supports single, loop, order, circulation, and random mode
 
 * [demo](https://ginmu.github.io/vue-audio/)
